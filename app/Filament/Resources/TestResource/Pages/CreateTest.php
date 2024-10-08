@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateTest extends CreateRecord
 {
     protected static string $resource = TestResource::class;
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        dd($data);
+        return $data;
+    }
 }

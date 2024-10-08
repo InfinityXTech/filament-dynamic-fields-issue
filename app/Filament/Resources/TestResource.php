@@ -26,24 +26,16 @@ class TestResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('field')
-                    ->options([
-                        DynamicFieldsTest::class => DynamicFieldsTest::class,
-                        DynamicFieldsTest2::class => DynamicFieldsTest2::class,
-                    ])->live(),
-                Forms\Components\Group::make(
-            function (Get $get) {
-                        $class = $get('field');
-            
-                        if ($class) {
-                            return [Forms\Components\Section::make('test')
-                                    ->collapsible()
-                                    ->schema($class::getSchema())];
-                        }
-
-                        return [];
-                    }
-                )->live()   
+                Forms\Components\Builder::make('content')
+                    ->blockPreviews()
+                    ->blocks([
+                        Forms\Components\Builder\Block::make('test1')
+                            ->schema(DynamicFieldsTest::getSchema())
+                            ->preview('test1'),
+                        Forms\Components\Builder\Block::make('test2')
+                            ->schema(DynamicFieldsTest2::getSchema())
+                            ->preview('test2'),
+                    ]) 
             ]);
     }
 
